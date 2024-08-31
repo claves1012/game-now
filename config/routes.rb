@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: 'game#index'
+  root to: 'games#index'
   
-  resources :game do
+  resources :games do
   end
 end
