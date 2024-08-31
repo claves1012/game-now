@@ -1,0 +1,87 @@
+<%= render "shared/header" %>
+<div class='main'>
+
+  <%# 画面上部の「話題のゲーム情報サイト」帯部分 %>
+  <div class='title-contents'>
+    <h2 class='service-title'>
+      話題のゲーム情報サイト
+    </h2>
+    <p class='service-explain'>
+      好きなゲームと出会える
+    </p>
+    <p class='service-explain'>
+      各情報サイトにリンク
+    </p>
+    <div class='store-btn'>
+      <%= link_to image_tag("", class:"apple-btn"), "#" %>
+      <%= link_to image_tag("", class:"google-btn"), "#" %>
+    </div>
+  </div>
+  <%# /画面上部の「話題のゲーム情報サイト」帯部分  %>
+
+  <%# 商品一覧 %>
+  <div class='item-contents'>
+    <h2 class='title'>ピックアップカテゴリー</h2>
+    <div class="subtitle" >
+      話題のタイトル
+    </div>
+    <ul class='item-lists'>
+
+      <% @game.each do |game| %>
+        <li class='list'>
+          <h3 class='item-name'>
+              <%= game.title %>
+          </h3>
+          <%= link_to game_path(game.id) do %>
+          <div class='item-img-content'>
+            <%= image_tag game.image, class: "item-img" %>
+              <div class='sold-out'>
+                <span>Sold Out!!</span>
+              </div>
+          </div>
+          <div class='item-info'>
+            <h3 class='item-name'>
+              <%= game.title %>
+            </h3>
+            <div class='item-price'>
+              <span><%#= game.price %>円<br><%#= game.shipping_cost.name %></span>
+              <div class='star-btn'>
+                <%= image_tag "", class:"star-icon" %>
+                <span class='star-count'>0</span>
+              </div>
+            </div>
+          </div>
+          <% end %>
+        </li>
+      <% end %>
+
+      <% if @game.empty? %>
+        <li class='list'>
+          <%= link_to "#" do %>
+          <div class='item-info'>
+            <h3 class='item-name'>
+              変なゲーム
+            </h3>
+          </div>
+          <%= image_tag "https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg", class: "item-img" %>
+          <div class='item-info'>
+            <div class='item-price'>
+              <span>無料<br>(税込み)</span>
+              <div class='star-btn'>
+                <%= image_tag "", class:"star-icon" %>
+                <span class='star-count'>0</span>
+              </div>
+            </div>
+          </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <%# /商品一覧 %>
+</div>
+  <%= link_to(new_game_path, class: 'purchase-btn') do %>
+    <span class='purchase-btn-text'>出品する</span>
+    <%= image_tag '' , size: '185x50' ,class: "purchase-btn-icon" %>
+  <% end %>
+<%= render "shared/footer" %>
