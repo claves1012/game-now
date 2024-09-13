@@ -6,20 +6,19 @@
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を入力</h2>
     <%= form_with(model: @game, local: true, html: { multipart: true }) do |f| %>
-
-    <%= render 'shared/error_messages', model:@game %>
-
+    <%= render 'shared/error_messages', model: @game %>
     <%# 商品画像 %>
     <div class="img-upload">
       <div class="weight-bold-text">
         画像
         <span class="indispensable">必須</span>
       </div>
+      <div id="previews"></div>
       <div class="click-upload">
         <p>
           クリックしてファイルをアップロード
         </p>
-        <%= f.file_field :images, multiple: true, id:"item-image" %>
+        <%= f.file_field :images, name: 'game[images][]', id: "item-image" %>
       </div>
     </div>
     <%# /商品画像 %>
@@ -29,17 +28,16 @@
         タイトル名
         <span class="indispensable">必須</span>
       </div>
-      <%= f.text_area :title, class:"items-text", id:"item-name", placeholder:"商品名（必須 40文字まで)", maxlength:"40" %>
+      <%= f.text_area :title, class: "items-text", id: "item-name", placeholder: "商品名（必須 40文字まで)", maxlength: "40" %>
       <div class="items-explain">
         <div class="weight-bold-text">
           概要
           <span class="indispensable">必須</span>
         </div>
-        <%= f.text_area :text, class:"items-text", id:"item-info", placeholder:"商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。" ,rows:"7" ,maxlength:"1000" %>
+        <%= f.text_area :text, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。" ,rows: "7" ,maxlength: "1000" %>
       </div>
     </div>
     <%# /商品名と商品説明 %>
-
     <%# 商品の詳細 %>
     <div class="items-detail">
       <div class="weight-bold-text">商品の詳細</div>
@@ -48,42 +46,23 @@
           ジャンル
           <span class="indispensable">必須</span>
         </div>
-        <%= f.collection_select(:hoge, Category.all, :id, :name, {}, {class:"select-box", id:"item-category"}) %>
+        <%= f.collection_select(:genre_id, Genre.all, :id, :name, {}, {class: "select-box", id: "item-category"}) %>
         <div class="weight-bold-text">
           ブランド
+        </div>
+        <%= f.text_area :brand, class: "select-box", id: "item-sales-status" %>
+        <div class="weight-bold-text">
+          OS
           <span class="indispensable">必須</span>
         </div>
-        <%= f.collection_select(:hoge, ItemStatus.all, :id, :name, {}, {class:"select-box", id:"item-sales-status"}) %>
+        <%= f.collection_select(:os_id, Os.all, :id, :name, {}, {class: "select-box", id: "item-sales-status"}) %>
+        <div class="weight-bold-text">
+          公式サイトリンク
+        </div>
+        <%= f.text_area :official, class: "select-box", id: "item-sales-status" %>
       </div>
     </div>
     <%# /商品の詳細 %>
-
-    <%# 配送について %>
-    <div class="items-detail">
-      <div class="weight-bold-text question-text">
-        <span>配送について</span>
-        <a class="question" href="#">?</a>
-      </div>
-      <div class="form">
-        <div class="weight-bold-text">
-          配送料の負担
-          <span class="indispensable">必須</span>
-        </div>
-        <%= f.collection_select(:hoge, ShippingCost.all, :id, :name, {}, {class:"select-box", id:"item-shipping-fee-status"}) %>
-        <div class="weight-bold-text">
-          発送元の地域
-          <span class="indispensable">必須</span>
-        </div>
-        <%= f.collection_select(:hoge, Prefecture.all, :id, :name, {}, {class:"select-box", id:"item-prefecture"}) %>
-        <div class="weight-bold-text">
-          発送までの日数
-          <span class="indispensable">必須</span>
-        </div>
-        <%= f.collection_select(:hoge, ShippingDate.all, :id, :name, {}, {class:"select-box", id:"item-scheduled-delivery"}) %>
-      </div>
-    </div>
-    <%# /配送について %>
-
     <%# 販売価格 %>
     <div class="sell-price">
       <div class="weight-bold-text question-text">
@@ -97,7 +76,7 @@
             <span class="indispensable">必須</span>
           </div>
           <span class="sell-yen">¥</span>
-          <%= f.text_field :hoge, class:"price-input", id:"item-price", placeholder:"例）300" %>
+          <%= f.text_field :price, class: "price-input", id: "item-price", placeholder: "例）300" %>
         </div>
         <div class="price-content">
           <span>販売手数料 (10%)</span>
@@ -114,7 +93,6 @@
       </div>
     </div>
     <%# /販売価格 %>
-
     <%# 注意書き %>
     <div class="caution">
       <p class="sentence">
@@ -136,8 +114,8 @@
     <%# /注意書き %>
     <%# 下部ボタン %>
     <div class="sell-btn-contents">
-      <%= f.submit "出品する" ,class:"sell-btn" %>
-      <%=link_to 'もどる', root_path, class:"back-btn" %>
+      <%= f.submit "登録する" ,class: "sell-btn" %>
+      <%= link_to 'もどる', root_path, class: "back-btn" %>
     </div>
     <%# /下部ボタン %>
   </div>
@@ -149,7 +127,6 @@
       <li><a href="#">フリマ利用規約</a></li>
       <li><a href="#">特定商取引に関する表記</a></li>
     </ul>
-    <%= link_to image_tag('furima-logo-color.png' , size: '185x50'), "/" %>
     <p class="inc">
       ©︎Furima,Inc.
     </p>

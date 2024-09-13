@@ -1,4 +1,7 @@
 class Genre < ActiveHash::Base
+  include ActiveHash::Associations
+  has_many :games
+
   self.data = [
     { id: 1, name: '---' },
     { id: 2, name: 'RPG' },
@@ -13,8 +16,8 @@ class Genre < ActiveHash::Base
     { id: 11, name: 'レース' },
     { id: 12, name: 'スポーツ' },
     { id: 13, name: 'リズム' },
-    { id: 14, name: 'ホラー' }
-    { id: 15, name: 'シューティング' }
+    { id: 14, name: 'ホラー' },
+    { id: 15, name: 'シューティング' },
     { id: 16, name: 'カード' }
   ]
   end

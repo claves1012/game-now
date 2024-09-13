@@ -2,5 +2,3 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "preview"
-import 'swiper/swiper-bundle.css';
-import './swiper_setup';
