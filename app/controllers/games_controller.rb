@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
-  before_action :authenticate_user!,only:[:new, :create, :edit, :update, :destroy]
-  before_action :set_game, only:[:show, :edit, :update, :destroy]
-  before_action :move_to_index, only:[:edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :move_to_index, only: [:edit, :update, :destroy]
 
   def index
     @game = Game.all
@@ -14,9 +14,6 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
     if @game.save
-      params[:game][:images].each do |image|
-        @game.images.create(url: image)
-      end
       redirect_to root_path
     else
       render :new, status: :unprocessable_entity
@@ -53,6 +50,6 @@ class GamesController < ApplicationController
   end
 
   def game_params
-    params.require(:game).permit(:title, :text, :images, :genre_id, :os_id, :price).merge(user_id: current_user.id)
+    params.require(:game).permit(:title, :text, :genre_id, :brand, :os_id, :official, :price, { images: [] }).merge(user_id: current_user.id)
   end
 end

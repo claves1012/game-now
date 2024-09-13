@@ -29,28 +29,27 @@
 
       <% @game.each do |game| %>
         <li class='list'>
-          <h3 class='item-name'>
-              <%= game.title %>
-          </h3>
           <%= link_to game_path(game.id) do %>
-          <div class='item-img-content'>
-            <%= image_tag game.image, class: "item-img" %>
-              <div class='sold-out'>
-                <span>Sold Out!!</span>
+            <div class='item-img-content'>
+              <div class='item-info'>
+                <h3 class='item-name'>
+                  <%= game.title %>
+                </h3>
+                <% if game.images.attached? %>
+                  <% game.images.each do |image| %>
+                    <%= image_tag image, class: "item-img" %>
+                  <% end %>
+                <% end %>
               </div>
-          </div>
-          <div class='item-info'>
-            <h3 class='item-name'>
-              <%= game.title %>
-            </h3>
-            <div class='item-price'>
-              <span><%#= game.price %>円<br><%#= game.shipping_cost.name %></span>
-              <div class='star-btn'>
-                <%= image_tag "", class:"star-icon" %>
-                <span class='star-count'>0</span>
+
+              <div class='item-price'>
+                <span><%= game.price %>円<br></span>
+                <div class='star-btn'>
+                  <%= image_tag "", class:"star-icon" %>
+                  <span class='star-count'>0</span>
+                </div>
               </div>
             </div>
-          </div>
           <% end %>
         </li>
       <% end %>
@@ -58,21 +57,21 @@
       <% if @game.empty? %>
         <li class='list'>
           <%= link_to "#" do %>
-          <div class='item-info'>
-            <h3 class='item-name'>
-              変なゲーム
-            </h3>
-          </div>
-          <%= image_tag "https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg", class: "item-img" %>
-          <div class='item-info'>
-            <div class='item-price'>
-              <span>無料<br>(税込み)</span>
-              <div class='star-btn'>
-                <%= image_tag "", class:"star-icon" %>
-                <span class='star-count'>0</span>
+            <div class='item-info'>
+              <h3 class='item-name'>
+                変なゲーム
+              </h3>
+            </div>
+            <%= image_tag "https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg", class: "item-img" %>
+            <div class='item-info'>
+              <div class='item-price'>
+                <span>無料<br>(税込み)</span>
+                <div class='star-btn'>
+                  <%= image_tag "", class:"star-icon" %>
+                  <span class='star-count'>0</span>
+                </div>
               </div>
             </div>
-          </div>
           <% end %>
         </li>
       <% end %>
